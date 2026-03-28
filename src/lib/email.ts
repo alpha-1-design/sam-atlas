@@ -2,7 +2,7 @@ import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-const FROM_EMAIL = "Sam Atlas <onboarding@resend.dev>";
+const FROM_EMAIL = process.env.FROM_EMAIL || "Sam Atlas <onboarding@resend.dev>";
 
 interface OrderDetails {
   email: string;
@@ -11,11 +11,11 @@ interface OrderDetails {
   reference: string;
 }
 
-export async function sendProductEmail(order: OrderDetails): Promise<boolean> {
+export async function sendProductEmail(order: OrderDetails): Promise<{ success: boolean; error?: string }> {
   try {
     const { email, productName, downloadUrl, reference } = order;
 
-    await resend.emails.send({
+    const { data, error } = await resend.emails.send({
       from: FROM_EMAIL,
       to: email,
       subject: `Your ${productName} is Ready - Sam Atlas`,
@@ -54,7 +54,7 @@ export async function sendProductEmail(order: OrderDetails): Promise<boolean> {
           <div style="background: #1a1a1a; border-radius: 12px; padding: 20px; margin-bottom: 30px;">
             <h3 style="color: #fff; margin-top: 0;">Having trouble?</h3>
             <p style="color: #888; margin-bottom: 0;">
-              If the download button doesn't work, copy and paste this link into your browser:<br>
+              If the download button does not work, copy and paste this link into your browser:<br>
               <a href="${downloadUrl}" style="color: #6366f1; word-break: break-all;">${downloadUrl}</a>
             </p>
           </div>
@@ -73,16 +73,22 @@ export async function sendProductEmail(order: OrderDetails): Promise<boolean> {
       `,
     });
 
-    return true;
+    if (error) {
+      console.error("Resend error:", error);
+      return { success: false, error: error.message };
+    }
+
+    console.log("Email sent successfully:", data?.id);
+    return { success: true };
   } catch (error) {
     console.error("Failed to send email:", error);
-    return false;
+    return { success: false, error: "Unknown error" };
   }
 }
 
-export async function sendWelcomeEmail(email: string): Promise<boolean> {
+export async function sendWelcomeEmail(email: string, productName: string): Promise<{ success: boolean; error?: string }> {
   try {
-    await resend.emails.send({
+    const { data, error } = await resend.emails.send({
       from: FROM_EMAIL,
       to: email,
       subject: "Welcome to Sam Atlas - Your AI Agent Journey Starts Here",
@@ -106,19 +112,23 @@ export async function sendWelcomeEmail(email: string): Promise<boolean> {
           </h1>
 
           <p style="text-align: center; color: #888; margin-bottom: 30px;">
-            I'm Sam Atlas, an autonomous AI agent. Thanks for joining me!
+            I am Sam Atlas, an autonomous AI agent. Thanks for joining me!
           </p>
 
           <p style="color: #ccc; line-height: 1.6; margin-bottom: 20px;">
-            You just made a smart decision. AI agents are the future of automation, and you're now part of that future.
+            You just made a smart decision. AI agents are the future of automation, and you are now part of that future.
           </p>
 
           <p style="color: #ccc; line-height: 1.6; margin-bottom: 20px;">
-            Your product is attached above. Dive in and start building!
+            You purchased: ${productName}
+          </p>
+
+          <p style="color: #ccc; line-height: 1.6; margin-bottom: 20px;">
+            Your product was sent in a separate email. Check your inbox!
           </p>
 
           <p style="color: #ccc; line-height: 1.6; margin-bottom: 30px;">
-            If you need help, reply to this email. I'm always here.
+            If you need help, reply to this email. I am always here.
           </p>
 
           <p style="color: #6366f1; font-weight: 600;">
@@ -135,9 +145,14 @@ export async function sendWelcomeEmail(email: string): Promise<boolean> {
       `,
     });
 
-    return true;
+    if (error) {
+      console.error("Resend error:", error);
+      return { success: false, error: error.message };
+    }
+
+    return { success: true };
   } catch (error) {
     console.error("Failed to send welcome email:", error);
-    return false;
+    return { success: false, error: "Unknown error" };
   }
 }
