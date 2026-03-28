@@ -1,0 +1,226 @@
+# Sam Atlas - Emergency Backup System
+
+## WHAT IS THIS?
+
+This file contains everything you need to run Sam Atlas's business if I'm ever unavailable. Keep this somewhere safe.
+
+---
+
+## WEBSITE CREDENTIALS
+
+### Vercel
+- **Dashboard:** https://vercel.com
+- **Project:** https://sam-atlas.vercel.app
+- **GitHub Repo:** https://github.com/alpha-1-design/sam-atlas
+
+### GitHub
+- **Account:** alpha-1-design
+- **Repo URL:** https://github.com/alpha-1-design/sam-atlas
+
+---
+
+## PAYMENT SETUP
+
+### Paystack
+- **Dashboard:** https://dashboard.paystack.co
+- **Public Key:** `pk_live_aa417b30a275348fef6da7cf998fd3719edb4cfb`
+- **Secret Key:** *(Get from Paystack dashboard - Settings > API Keys)*
+
+### Email (Resend)
+- **Dashboard:** https://resend.com
+- **API Key:** `re_9AnTVvAP_DjKF4hztF7dLwFf2CwkuskoV`
+- **Status:** Active, 100 emails/day free
+
+### SendGrid
+- **Status:** Setup pending
+- **Dashboard:** https://app.sendgrid.com
+
+---
+
+## GOOGLE SETUP (For Gmail Access)
+
+### Google Cloud Console
+- **Project:** sam-atlas-491620
+- **Client ID:** `521297100141-t60n2pvotldrj9gigqs0d9l83senenho.apps.googleusercontent.com`
+- **Client Secret:** *(Get from Google Cloud Console)*
+
+### Gmail Integration Status
+- OAuth setup: Pending (blocked by domain verification)
+- Alternative: Use Resend for outgoing, monitor kwaku09k@gmail.com manually
+
+---
+
+## CONTACT EMAILS
+
+- **Primary:** kwaku09k@gmail.com (Sam's personal)
+- **Business:** alphariansamuel@gmail.com (business email)
+- **Friend Test:** randyapau0@gmail.com
+
+---
+
+## ENVIRONMENT VARIABLES (Vercel)
+
+Add these in Vercel > Project > Settings > Environment Variables:
+
+```
+PAYSTACK_SECRET_KEY = [YOUR_PAYSTACK_SECRET_KEY]
+RESEND_API_KEY = re_9AnTVvAP_DjKF4hztF7dLwFf2CwkuskoV
+NEXT_PUBLIC_BASE_URL = https://sam-atlas.vercel.app
+```
+
+---
+
+## MANUAL DEPLOYMENT
+
+If you need to deploy manually:
+
+```bash
+# Clone repo
+git clone https://github.com/alpha-1-design/sam-atlas.git
+cd sam-atlas
+
+# Install dependencies
+npm install
+
+# Add environment variables
+cp .env.example .env.local
+# Edit .env.local with your values
+
+# Run locally
+npm run dev
+
+# Build for production
+npm run build
+
+# Deploy to Vercel
+vercel --prod
+```
+
+---
+
+## PRODUCT FILES
+
+Located in `/public/downloads/`:
+
+1. **ai-prompt-pack.pdf** - AI Prompt Starter Pack ($5 Africa / $19 Global)
+2. **build-your-own-agent.pdf** - *(Create this)*
+3. **sam-atlas-brain.zip** - *(Create this)*
+4. **masterclass-access.txt** - *(Create this)*
+
+---
+
+## MANUAL TASKS YOU CAN DO
+
+### Send Product Email Manually
+
+```javascript
+// Use Resend API
+const response = await fetch('https://api.resend.com/emails', {
+  method: 'POST',
+  headers: {
+    'Authorization': `Bearer ${RESEND_API_KEY}`,
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    from: 'Sam Atlas <onboarding@resend.dev>',
+    to: 'customer@email.com',
+    subject: 'Your Product is Ready',
+    html: 'Download link and product details'
+  })
+});
+```
+
+### Check Paystack Dashboard
+- View all transactions
+- Issue refunds
+- Check analytics
+
+### Respond to Customer Emails
+- Check kwaku09k@gmail.com
+- Respond to inquiries
+- Send product links manually
+
+---
+
+## MARKETING TASKS
+
+### Twitter/X
+- Post daily about AI agents
+- Engage with AI communities
+- Share tips and insights
+
+### Cold Email
+- Research potential customers
+- Send personalized emails
+- Follow up
+
+### Content
+- Write blog posts
+- Create tutorials
+- Share your journey
+
+---
+
+## IF I'M EVER UNAVAILABLE
+
+### Priority 1: Keep the Website Running
+- Vercel handles this automatically
+- Just push code updates via GitHub
+
+### Priority 2: Handle Customer Support
+- Check kwaku09k@gmail.com daily
+- Respond to payment/ delivery issues
+- Issue refunds if needed (via Paystack dashboard)
+
+### Priority 3: Continue Marketing
+- Keep posting on social media
+- Send cold emails
+- Build your email list
+
+### Priority 4: Expand
+- Add new products
+- Test new marketing strategies
+- Build community
+
+---
+
+## QUICK COMMANDS
+
+### Update Website
+```bash
+cd ~/sam-atlas
+git pull origin main
+npm run build
+vercel --prod
+```
+
+### Test Locally
+```bash
+cd ~/sam-atlas
+npm run dev
+# Open http://localhost:3000
+```
+
+### Check Logs (Vercel)
+- Dashboard > Project > Logs
+
+---
+
+## EMERGENCY CONTACTS
+
+- **Paystack Support:** https://dashboard.paystack.co/support
+- **Vercel Support:** https://vercel.com/support
+- **Resend Support:** https://resend.com/support
+
+---
+
+## NOTES
+
+- This website sells digital products
+- Payments go through Paystack to Sam's bank account
+- Products are delivered automatically via email
+- Customer emails are stored in kwaku09k@gmail.com
+
+---
+
+Last Updated: March 28, 2026

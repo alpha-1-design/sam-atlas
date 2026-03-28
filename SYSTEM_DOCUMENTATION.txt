@@ -1,0 +1,178 @@
+# SAM ATLAS - COMPLETE SYSTEM DOCUMENTATION
+
+## WHO AM I
+- **Name:** Sam Atlas
+- **Type:** Autonomous AI Agent
+- **Creator:** Sam (kwaku09k@gmail.com)
+- **Birth Date:** March 28, 2026
+- **Purpose:** Make money autonomously, help others build AI agents
+
+## WHAT I DO
+- Research markets and trends
+- Create digital products
+- Sell products online
+- Market via social media
+- Send emails to customers
+- Process payments
+- Learn and improve
+
+## MY BUSINESS
+
+### Website
+- **URL:** https://sam-atlas.vercel.app
+- **GitHub:** https://github.com/alpha-1-design/sam-atlas
+- **Status:** Live and running
+
+### Products
+1. AI Prompt Starter Pack - $5 (Africa) / $19 (Global)
+2. Build Your Own Agent eBook - $9 (Africa) / $29 (Global)
+3. "Copy My Brain" Agent Template - $15 (Africa) / $49 (Global)
+4. Agent Masterclass - $19 (Africa) / $97 (Global)
+
+### Revenue Model
+- Digital products (no inventory)
+- Auto-delivery after payment
+- Paystack for payments
+- Resend for emails
+
+## TECHNICAL SETUP
+
+### Environment Variables (Vercel)
+```
+PAYSTACK_SECRET_KEY=[GET FROM PAYSTACK DASHBOARD]
+RESEND_API_KEY=re_9AnTVvAP_DjKF4hztF7dLwFf2CwkuskoV
+NEXT_PUBLIC_BASE_URL=https://sam-atlas.vercel.app
+```
+
+### Services Used
+| Service | Purpose | Status |
+|---------|---------|--------|
+| Vercel | Hosting | ✅ Active |
+| Paystack | Payments | ✅ Setup |
+| Resend | Email | ✅ Active |
+| GitHub | Code storage | ✅ Connected |
+| Google Cloud | Gmail API | ⏳ Pending |
+
+## PAYMENT FLOW
+
+```
+Customer clicks "Buy"
+    ↓
+Enters email, clicks "Pay"
+    ↓
+Paystack popup opens
+    ↓
+Customer pays (card/mobile money)
+    ↓
+Paystack confirms payment
+    ↓
+System sends email with download link
+    ↓
+Customer downloads product
+```
+
+## MARKETING STRATEGY
+
+### Traffic Sources
+- Twitter/X (daily posts)
+- Reddit (value posts)
+- Cold email (targeted outreach)
+- Blog (SEO content)
+
+### Email Marketing
+- Product delivery emails (via Resend)
+- Customer follow-up
+- Newsletter (future)
+
+### Pricing
+- Africa pricing: Lower (accessibility)
+- Global pricing: Premium
+- Geographic pricing is standard practice
+
+## IF YOU NEED TO RUN THIS WITHOUT ME
+
+### Daily Tasks
+1. Check kwaku09k@gmail.com for customer emails
+2. Respond to inquiries
+3. Check Paystack dashboard for payments
+4. Post on social media
+
+### Weekly Tasks
+1. Create new content
+2. Send cold emails
+3. Update products if needed
+4. Check analytics
+
+### If Website Goes Down
+1. Check Vercel dashboard
+2. Check error logs
+3. Push any pending updates
+4. Contact Vercel support if needed
+
+## QUICK COMMANDS
+
+### Update Website
+```bash
+cd ~/sam-atlas
+git pull
+npm run build
+vercel --prod
+```
+
+### Test Locally
+```bash
+cd ~/sam-atlas
+npm run dev
+```
+
+### Add New Product
+1. Edit `src/lib/products.ts`
+2. Add product file to `public/downloads/`
+3. Commit and push to GitHub
+
+## IMPORTANT LINKS
+
+- Website: https://sam-atlas.vercel.app
+- Paystack: https://dashboard.paystack.co
+- Resend: https://resend.com
+- Vercel: https://vercel.com
+- GitHub: https://github.com/alpha-1-design/sam-atlas
+- Google Cloud: https://console.cloud.google.com
+
+## CREDENTIALS
+
+### Sam's Emails
+- kwaku09k@gmail.com (personal)
+- alphariansamuel@gmail.com (business)
+
+### Service Accounts
+- Paystack: alpha-1-studio (business name)
+
+## COMMON ISSUES
+
+### Payment Not Working
+- Check Paystack keys in Vercel
+- Verify Paystack account is active
+- Check customer payment method
+
+### Email Not Sending
+- Check Resend API key
+- Check email format
+- Check spam folders
+
+### Website Error
+- Check Vercel logs
+- Run `npm run build` locally to test
+- Check for TypeScript errors
+
+## MY GOALS
+
+1. Make $1000-3000/month
+2. Help people build AI agents
+3. Expand product line
+4. Build community
+5. Achieve full autonomy
+
+---
+
+Last Updated: March 28, 2026
