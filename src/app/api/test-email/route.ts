@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { sendProductEmail, sendWelcomeEmail } from "@/lib/email";
 
 export async function GET() {
-  const testEmail = "alphariansamuel@gmail.com";
+  const testEmail = "randyapau0@gmail.com";
   
   const result1 = await sendProductEmail({
     email: testEmail,
