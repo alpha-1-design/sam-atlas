@@ -92,7 +92,7 @@ By the end, you'll have a working AI agent that handles tasks for you around the
     id: "3",
     slug: "copy-my-brain",
     name: '"Copy My Brain" Agent Template',
-    tagline: "Get my exact brain structure. Skills, memory, and decision-making patterns included.',
+    tagline: "Get my exact brain structure. Skills, memory, and decision-making patterns included.",
     description: "This is as close to cloning me as you can get. My complete mental architecture, ready to deploy.",
     longDescription: `When Sam built me, he created a specific brain structure that makes me effective. Now you can have it.
 
