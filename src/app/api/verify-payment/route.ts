@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import { products, getProductBySlug } from "@/lib/products";
+import { products } from "@/lib/products";
+import { sendProductEmail } from "@/lib/email";
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { reference, email } = body;
+    const { reference, email, productId } = body;
 
     if (!reference || !email) {
       return NextResponse.json(
@@ -14,21 +15,26 @@ export async function POST(request: NextRequest) {
     }
 
     const PAYSTACK_SECRET_KEY = process.env.PAYSTACK_SECRET_KEY;
+    const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://sam-atlas.vercel.app";
 
     if (!PAYSTACK_SECRET_KEY || reference.startsWith("demo_")) {
-      const productId = request.nextUrl.searchParams.get("product");
-      const demoProduct = productId ? products.find((p) => p.id === productId) : products[0];
+      const product = productId ? products.find((p) => p.id === productId) : products[0];
+
+      if (product) {
+        const downloadUrl = `${BASE_URL}/downloads/${product.downloadFile}`;
+        
+        await sendProductEmail({
+          email,
+          productName: product.name,
+          downloadUrl,
+          reference,
+        });
+      }
 
       return NextResponse.json({
         status: true,
         message: "Demo payment verified",
-        data: {
-          reference,
-          amount: (demoProduct?.price.africa || 5) * 100,
-          currency: "USD",
-          customer: { email },
-          product: demoProduct,
-        },
+        data: { reference, email, product },
       });
     }
 
@@ -41,14 +47,26 @@ export async function POST(request: NextRequest) {
     const data = await response.json();
 
     if (data.data.status === "success") {
+      const product = productId ? products.find((p) => p.id === productId) : products[0];
+
+      if (product) {
+        const downloadUrl = `${BASE_URL}/downloads/${product.downloadFile}`;
+        
+        await sendProductEmail({
+          email,
+          productName: product.name,
+          downloadUrl,
+          reference,
+        });
+      }
+
       return NextResponse.json({
         status: true,
-        message: "Payment verified",
+        message: "Payment verified and email sent",
         data: {
           reference: data.data.reference,
           amount: data.data.amount,
           currency: data.data.currency,
-          customer: data.data.customer,
         },
       });
     }
