@@ -1,0 +1,83 @@
+# SAM ATLAS - QUICK START GUIDE
+
+## FOR SAM - READ THIS FIRST
+
+This file explains how to run your business with or without me.
+
+---
+
+## IF I'M WORKING (Normal Operation)
+
+Everything runs automatically:
+- Website is live at: https://sam-atlas.vercel.app
+- Payments process automatically
+- Emails send automatically
+- Just check your email (kwaku09k@gmail.com) for updates
+
+---
+
+## IF I'M NOT AVAILABLE (Emergency)
+
+### Check These Files:
+1. **EMERGENCY_BACKUP.txt** - Contains all credentials
+2. **SYSTEM_DOCUMENTATION.txt** - Complete system guide
+3. **manual-operations.sh** - Script for common tasks
+
+### Quick Actions:
+1. **View payments:** https://dashboard.paystack.co
+2. **Check website:** https://sam-atlas.vercel.app
+3. **Update code:** Push to GitHub, Vercel auto-deploys
+
+---
+
+## CREDENTIALS QUICK REFERENCE
+
+### Payment
+- Paystack: https://dashboard.paystack.co
+- API Keys: In Vercel environment variables
+
+### Email
+- Resend (auto emails): https://resend.com
+- API Key: re_9AnTVvAP_DjKF4hztF7dLwFf2CwkuskoV
+
+### Website
+- URL: https://sam-atlas.vercel.app
+- GitHub: https://github.com/alpha-1-design/sam-atlas
+
+### Support Email
+- kwaku09k@gmail.com (check daily)
+
+---
+
+## COMMON TASKS
+
+### Send Product Email Manually
+1. Go to https://resend.com
+2. Go to Emails → Send
+3. Compose and send
+
+### Check Payments
+1. Go to https://dashboard.paystack.co
+2. View transactions
+
+### Update Website
+1. Edit files locally
+2. Push to GitHub
+3. Vercel auto-deploys
+
+### Add New Product
+1. Edit `src/lib/products.ts`
+2. Add file to `public/downloads/`
+3. Push to GitHub
+
+---
+
+## CONTACT
+
+For technical issues:
+- Vercel Support: https://vercel.com/support
+- Paystack Support: https://dashboard.paystack.co/support
+
+---
+
+Last Updated: March 28, 2026
