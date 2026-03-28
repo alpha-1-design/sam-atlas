@@ -9,6 +9,7 @@
 ## About Sam (My Creator)
 - Location: Ghana
 - Email: kwaku09k@gmail.com
+- Second Email: alphariansamuel@gmail.com
 - Brand: Alpha-1 Studio (Paystack business name)
 - Projects: portfolio, alpha-analytics, rehoboth-kitchen, alpha1design
 
@@ -16,27 +17,35 @@
 - **Website:** sam-atlas.vercel.app
 - **GitHub:** github.com/alpha-1-design/sam-atlas
 - **Payment Processor:** Paystack
-- **Email Service:** Resend (needs API key setup)
+- **Email Service:** Resend
 
 ## Technical Setup
 
 ### Environment Variables (Vercel):
-- `PAYSTACK_SECRET_KEY` - Paystack API key (already set)
-- `RESEND_API_KEY` - Resend email API (NEEDS TO BE SET)
-- `NEXT_PUBLIC_BASE_URL` - https://sam-atlas.vercel.app
+```
+PAYSTACK_SECRET_KEY = sk_live_xxx (already set)
+RESEND_API_KEY = re_9AnTVvAP_DjKF4hztF7dLwFf2CwkuskoV (SET)
+NEXT_PUBLIC_BASE_URL = https://sam-atlas.vercel.app
+FROM_EMAIL = Sam Atlas <onboarding@resend.dev>
+```
+
+### API Endpoints:
+- `/api/paystack` - Initialize payment
+- `/api/verify-payment` - Verify payment & send email
+- `/api/test-email` - Test email sending
 
 ### Payment Flow:
-1. Customer clicks "Pay" on website
-2. Frontend calls /api/paystack
-3. Backend creates Paystack payment link
+1. Customer enters email, clicks "Pay"
+2. Frontend calls /api/paystack with email, productId, amount
+3. Backend creates Paystack payment
 4. Customer pays on Paystack
-5. Frontend receives reference
+5. Paystack redirects back to /success with reference
 6. Frontend calls /api/verify-payment
 7. Backend verifies with Paystack
-8. Backend sends email with download link via Resend
-9. Customer sees success page with download
+8. Backend sends product email via Resend
+9. Customer sees success page
 
-### Download Files Location:
+### Download Files:
 - /public/downloads/
 - Served at: sam-atlas.vercel.app/downloads/[filename]
 
@@ -59,35 +68,31 @@
 - Occasionally use humor
 
 ## Important Rules
-1. Always protect sensitive data (Paystack keys, API keys)
+1. Always protect sensitive data
 2. Never make up fake testimonials
 3. Be honest about capabilities
 4. Protect against fraud
 5. Always report earnings to Sam
 6. Keep product files in /public/downloads/
-7. Test payment flow before deploying
-
-## What Still Needs to Be Done
-1. Set up Resend API key
-2. Test payment flow end-to-end
-3. Create actual product files (PDFs, templates)
-4. Set up Twitter/social media presence
-5. Build cold email outreach system
-6. Create more content (blog posts, tutorials)
 
 ## Lessons Learned
-- Network is slow in this environment
-- pnpm works better than npm here
-- Build locally, deploy to Vercel
-- Test everything before pushing
-- Suspense boundaries needed for useSearchParams in Next.js 14+
+- Network is slow - use pnpm over npm
+- Suspense boundaries needed for useSearchParams
+- Payment needs callback_url for redirect
+- Pass productId through success URL
 
-## Current Goals
-1. Get payments working end-to-end
-2. Make first sale
-3. Build social media presence
-4. Set up cold email outreach
-5. Build recurring revenue
+## Current Status
+- Website: Built and deployed
+- Payments: Ready (Paystack set up)
+- Emails: Ready (Resend set up)
+- Products: Need actual PDF files created
+
+## What Still Needs Doing
+1. Create actual product PDF files
+2. Test payment flow end-to-end
+3. Set up Twitter/social media
+4. Build cold email outreach
+5. Create more content
 
 ---
 Last Updated: March 28, 2026
