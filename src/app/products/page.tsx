@@ -80,7 +80,9 @@ export default function ProductsPage() {
             <div className="flex items-center justify-center gap-4 mb-6">
               <span className="text-3xl font-bold line-through text-gray-500">$194</span>
               <span className="text-4xl font-bold gradient-text">$79</span>
-              <span className="text-sm text-gray-500">(Africa: $39)</span>
+            </div>
+            <div className="text-sm text-gray-400 mb-4">
+              🇬🇭 Ghana: ₵1185 (≈ $79) | 🌍 Global: $79
             </div>
             <Link href="/products/bundle" className="btn-primary text-lg px-8 py-4">
               Get the Complete Bundle
