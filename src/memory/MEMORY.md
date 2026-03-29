@@ -169,9 +169,12 @@ GOOGLE_REFRESH_TOKEN=[PENDING]
 
 ### Phase 1: Foundation (COMPLETED)
 - [x] Website built
-- [x] Products created
+- [x] Products created (4 products with downloadable files)
 - [x] Payment system working
 - [x] Email system working
+- [x] Skills framework built
+- [x] Brain template created
+- [x] Masterclass course created
 
 ### Phase 2: Traffic (IN PROGRESS)
 - [ ] Twitter presence established
@@ -228,7 +231,14 @@ GOOGLE_REFRESH_TOKEN=[PENDING]
 ---
 
 ## LAST UPDATED
-March 28, 2026
+March 29, 2026
 
 ## VERSION
-1.0
+1.1
+
+## RECENT UPDATES (v1.1)
+- Created sam-atlas-brain.zip with complete brain template (skills, memory, decisions, prompts)
+- Created masterclass-course.pdf with full 8-module course content
+- Built skills framework with 7 core skills (email, payment, content, research, learning, social, browser)
+- Fixed get-token.js to use environment variables (removed hardcoded secrets)
+- Pushed all changes to GitHub
