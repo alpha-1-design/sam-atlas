@@ -1,19 +1,37 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const AFRICAN_COUNTRIES = ["GH", "NG", "KE", "ZA", "TZ", "UG", "RW", "ET", "ZM", "ZW", "CI", "GHANA", "NIGERIA", "KENYA", "SOUTH AFRICA"];
+const GHANA_COUNTRY_CODE = "GH";
 
-async function detectRegionFromIP(ip: string): Promise<"africa" | "global"> {
+interface DetectedRegion {
+  region: "ghana" | "global";
+  countryCode: string;
+  currency: "GHS" | "USD";
+  pricingTier: "africa" | "global";
+}
+
+async function detectRegionFromIP(ip: string): Promise<DetectedRegion> {
   try {
     const response = await fetch(`https://ipapi.co/${ip}/country_code/`);
     const countryCode = await response.text().trim();
     
-    if (AFRICAN_COUNTRIES.includes(countryCode)) {
-      return "africa";
+    if (countryCode === GHANA_COUNTRY_CODE) {
+      return {
+        region: "ghana",
+        countryCode,
+        currency: "GHS",
+        pricingTier: "africa"
+      };
     }
   } catch (error) {
     console.error("Failed to detect region:", error);
   }
-  return "global";
+  
+  return {
+    region: "global",
+    countryCode: "XX",
+    currency: "USD",
+    pricingTier: "global"
+  };
 }
 
 function getClientIP(request: NextRequest): string {
@@ -37,9 +55,7 @@ export async function POST(request: NextRequest) {
     }
 
     const clientIP = getClientIP(request);
-    const serverDetectedRegion = await detectRegionFromIP(clientIP);
-    
-    const finalRegion = serverDetectedRegion;
+    const detected = await detectRegionFromIP(clientIP);
 
     const PAYSTACK_SECRET_KEY = process.env.PAYSTACK_SECRET_KEY;
     const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://sam-atlas.vercel.app";
@@ -57,8 +73,8 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    const currency = finalRegion === "africa" ? "GHS" : "USD";
-    const callbackUrl = `${BASE_URL}/success?product=${productId}&email=${encodeURIComponent(email)}&region=${finalRegion}`;
+    const currency = detected.currency;
+    const callbackUrl = `${BASE_URL}/success?product=${productId}&email=${encodeURIComponent(email)}&region=${detected.region}`;
 
     const response = await fetch("https://api.paystack.co/transaction/initialize", {
       method: "POST",
@@ -73,7 +89,9 @@ export async function POST(request: NextRequest) {
         callback_url: callbackUrl,
         metadata: {
           product_id: productId,
-          detected_region: finalRegion,
+          detected_region: detected.region,
+          pricing_tier: detected.pricingTier,
+          country_code: detected.countryCode,
           client_ip: clientIP,
           custom_fields: [
             {
@@ -84,7 +102,12 @@ export async function POST(request: NextRequest) {
             {
               display_name: "Region",
               variable_name: "region",
-              value: finalRegion,
+              value: detected.region,
+            },
+            {
+              display_name: "Currency",
+              variable_name: "currency",
+              value: currency,
             },
           ],
         },

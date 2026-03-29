@@ -211,37 +211,32 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
                         region === "africa" ? "bg-secondary" : "bg-primary"
                       }`} />
                       <span className="text-sm font-medium">
-                        {region === "africa" ? "🌍 Detected: Africa" : "🌍 Detected: Global"}
+                        {region === "africa" ? "🇬🇭 Ghana (GHS)" : "🌍 Global (USD)"}
                       </span>
                     </div>
                     <span className="text-xs text-gray-400">
-                      Based on your location
+                      Auto-detected
                     </span>
                   </div>
-                  {region === "global" && (
-                    <p className="text-xs text-gray-400 mt-2">
-                      Need Africa pricing? Contact support with proof of location.
-                    </p>
-                  )}
                 </div>
               </div>
 
               <div className="mb-6">
                 {region === "africa" ? (
                   <div>
-                    <span className="text-sm text-gray-400">Africa Pricing</span>
+                    <span className="text-sm text-gray-400">Ghana Pricing</span>
                     <div>
-                      <span className="text-4xl font-bold">${product.price.africa}</span>
-                      <span className="text-gray-400 ml-2">one-time</span>
+                      <span className="text-4xl font-bold">₵{product.price.africa * 15}</span>
+                      <span className="text-gray-400 ml-2">≈ ${product.price.africa} USD</span>
                     </div>
-                    <span className="text-xs text-secondary">Special pricing for Africa</span>
+                    <span className="text-xs text-secondary">Special pricing for Ghana</span>
                   </div>
                 ) : (
                   <div>
-                    <span className="text-sm text-gray-400">Global Pricing</span>
+                    <span className="text-sm text-gray-400">International Pricing</span>
                     <div>
                       <span className="text-4xl font-bold">${product.price.global}</span>
-                      <span className="text-gray-400 ml-2">one-time</span>
+                      <span className="text-gray-400 ml-2">USD</span>
                     </div>
                   </div>
                 )}
@@ -264,7 +259,7 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
                   disabled={isProcessing}
                   className="w-full btn-primary py-4 text-lg disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {isProcessing ? "Processing..." : `Pay $${region === "africa" ? product.price.africa : product.price.global} with Paystack`}
+                  {isProcessing ? "Processing..." : `Pay ${region === "africa" ? `₵${product.price.africa * 15}` : `$${product.price.global}`} with Paystack`}
                 </button>
 
                 <div className="flex items-center justify-center gap-4 text-sm text-gray-500">

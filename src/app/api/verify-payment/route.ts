@@ -50,12 +50,13 @@ export async function POST(request: NextRequest) {
       const paidAmount = data.data.amount / 100;
       const currency = data.data.currency;
       const metadata = data.data.metadata || {};
-      const detectedRegion = metadata.detected_region || (currency === "GHS" ? "africa" : "global");
+      const detectedRegion = metadata.detected_region || "global";
+      const pricingTier = metadata.pricing_tier || "global";
       
       const product = productId ? products.find((p) => p.id === productId) : products[0];
       
       if (product) {
-        const expectedAmount = detectedRegion === "africa" ? product.price.africa : product.price.global;
+        const expectedAmount = pricingTier === "africa" ? product.price.africa : product.price.global;
         
         if (paidAmount < expectedAmount * 0.9) {
           console.error(`Fraud alert: Expected ~$${expectedAmount} but got $${paidAmount} (${currency})`);
@@ -64,6 +65,8 @@ export async function POST(request: NextRequest) {
             { status: 400 }
           );
         }
+        
+        console.log(`Payment verified: ${product.name} - ${currency} ${paidAmount} from ${detectedRegion}`);
       }
 
       if (product) {

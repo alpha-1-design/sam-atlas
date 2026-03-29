@@ -51,11 +51,11 @@ export default function ProductsPage() {
               <div className="border-t border-card-border pt-6 mt-6">
                 <div className="flex items-center justify-between mb-4">
                   <div>
-                    <span className="text-sm text-gray-500">Africa: </span>
-                    <span className="text-2xl font-bold">${product.price.africa}</span>
+                    <span className="text-sm text-gray-500">🇬🇭 Ghana: </span>
+                    <span className="text-2xl font-bold">₵{product.price.africa * 15}</span>
                   </div>
                   <div>
-                    <span className="text-sm text-gray-500">Global: </span>
+                    <span className="text-sm text-gray-500">🌍 Global: </span>
                     <span className="text-2xl font-bold">${product.price.global}</span>
                   </div>
                 </div>
