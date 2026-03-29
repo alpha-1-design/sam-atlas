@@ -56,7 +56,7 @@ export default function ProductsPage() {
                   </div>
                   <div>
                     <span className="text-sm text-gray-500">Global: </span>
-                    <span className="text-xl font-bold line-through text-gray-500 mr-2">${product.price.global}</span>
+                    <span className="text-2xl font-bold">${product.price.global}</span>
                   </div>
                 </div>
 

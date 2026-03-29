@@ -198,41 +198,51 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
             <div className="gradient-border rounded-2xl p-8 sticky top-24">
               <h3 className="text-2xl font-bold mb-4">Get Instant Access</h3>
 
-              {/* Region Toggle */}
-              <div className="flex gap-2 mb-6">
-                <button
-                  onClick={() => setRegion("global")}
-                  className={`flex-1 py-2 px-4 rounded-lg text-sm font-medium transition-all ${
-                    region === "global"
-                      ? "bg-primary text-white"
-                      : "bg-card text-gray-400 hover:bg-card-border"
-                  }`}
-                >
-                  Global Price
-                </button>
-                <button
-                  onClick={() => setRegion("africa")}
-                  className={`flex-1 py-2 px-4 rounded-lg text-sm font-medium transition-all ${
-                    region === "africa"
-                      ? "bg-secondary text-white"
-                      : "bg-card text-gray-400 hover:bg-card-border"
-                  }`}
-                >
-                  Africa Price
-                </button>
+              {/* Region Detection */}
+              <div className="mb-6">
+                <div className={`p-3 rounded-lg border ${
+                  region === "africa" 
+                    ? "border-secondary/50 bg-secondary/10" 
+                    : "border-primary/50 bg-primary/10"
+                }`}>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <span className={`w-2 h-2 rounded-full ${
+                        region === "africa" ? "bg-secondary" : "bg-primary"
+                      }`} />
+                      <span className="text-sm font-medium">
+                        {region === "africa" ? "🌍 Detected: Africa" : "🌍 Detected: Global"}
+                      </span>
+                    </div>
+                    <span className="text-xs text-gray-400">
+                      Based on your location
+                    </span>
+                  </div>
+                  {region === "global" && (
+                    <p className="text-xs text-gray-400 mt-2">
+                      Need Africa pricing? Contact support with proof of location.
+                    </p>
+                  )}
+                </div>
               </div>
 
               <div className="mb-6">
                 {region === "africa" ? (
                   <div>
-                    <span className="text-4xl font-bold">${product.price.africa}</span>
-                    <span className="text-gray-400 ml-2">one-time</span>
+                    <span className="text-sm text-gray-400">Africa Pricing</span>
+                    <div>
+                      <span className="text-4xl font-bold">${product.price.africa}</span>
+                      <span className="text-gray-400 ml-2">one-time</span>
+                    </div>
+                    <span className="text-xs text-secondary">Special pricing for Africa</span>
                   </div>
                 ) : (
                   <div>
-                    <span className="text-3xl font-bold line-through text-gray-500">${product.price.global}</span>
-                    <span className="text-4xl font-bold text-white ml-2">${Math.round(product.price.global * 0.7)}</span>
-                    <span className="text-gray-400 ml-2">one-time</span>
+                    <span className="text-sm text-gray-400">Global Pricing</span>
+                    <div>
+                      <span className="text-4xl font-bold">${product.price.global}</span>
+                      <span className="text-gray-400 ml-2">one-time</span>
+                    </div>
                   </div>
                 )}
               </div>
@@ -254,7 +264,7 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
                   disabled={isProcessing}
                   className="w-full btn-primary py-4 text-lg disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {isProcessing ? "Processing..." : `Pay $${region === "africa" ? product.price.africa : Math.round(product.price.global * 0.7)} with Paystack`}
+                  {isProcessing ? "Processing..." : `Pay $${region === "africa" ? product.price.africa : product.price.global} with Paystack`}
                 </button>
 
                 <div className="flex items-center justify-center gap-4 text-sm text-gray-500">

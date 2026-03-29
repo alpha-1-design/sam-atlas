@@ -47,7 +47,24 @@ export async function POST(request: NextRequest) {
     const data = await response.json();
 
     if (data.data.status === "success") {
+      const paidAmount = data.data.amount / 100;
+      const currency = data.data.currency;
+      const metadata = data.data.metadata || {};
+      const detectedRegion = metadata.detected_region || (currency === "GHS" ? "africa" : "global");
+      
       const product = productId ? products.find((p) => p.id === productId) : products[0];
+      
+      if (product) {
+        const expectedAmount = detectedRegion === "africa" ? product.price.africa : product.price.global;
+        
+        if (paidAmount < expectedAmount * 0.9) {
+          console.error(`Fraud alert: Expected ~$${expectedAmount} but got $${paidAmount} (${currency})`);
+          return NextResponse.json(
+            { status: false, message: "Payment amount mismatch - possible fraud" },
+            { status: 400 }
+          );
+        }
+      }
 
       if (product) {
         const downloadUrl = `${BASE_URL}/downloads/${product.downloadFile}`;
