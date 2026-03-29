@@ -167,7 +167,7 @@ Plus: Weekly office hours, private community access, and lifetime updates.`,
     category: "courses",
     popular: true,
     preview: "🎓",
-    downloadFile: "masterclass-access.txt",
+    downloadFile: "masterclass-course.pdf",
   },
 ];
 
