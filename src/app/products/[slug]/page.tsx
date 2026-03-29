@@ -226,8 +226,7 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
                   <div>
                     <span className="text-sm text-gray-400">Ghana Pricing</span>
                     <div>
-                      <span className="text-4xl font-bold">₵{product.price.africa * 15}</span>
-                      <span className="text-gray-400 ml-2">≈ ${product.price.africa} USD</span>
+                      <span className="text-4xl font-bold">₵{product.price.africa}</span>
                     </div>
                     <span className="text-xs text-secondary">Special pricing for Ghana</span>
                   </div>

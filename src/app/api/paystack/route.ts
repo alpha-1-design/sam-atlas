@@ -3,11 +3,14 @@ import { products } from "@/lib/products";
 
 const GHANA_COUNTRY_CODE = "GH";
 
-const PRODUCT_PRICES = {
-  "1": { ghana: 5, global: 19 },
-  "2": { ghana: 9, global: 29 },
-  "3": { ghana: 15, global: 49 },
-  "4": { ghana: 19, global: 97 },
+const GHS_TO_USD_RATE = 15;
+
+const PRODUCT_PRICES: Record<string, { ghana: number; global: number }> = {
+  "1": { ghana: 5 * GHS_TO_USD_RATE, global: 19 },
+  "2": { ghana: 9 * GHS_TO_USD_RATE, global: 29 },
+  "3": { ghana: 15 * GHS_TO_USD_RATE, global: 49 },
+  "4": { ghana: 19 * GHS_TO_USD_RATE, global: 97 },
+  "bundle": { ghana: 79 * GHS_TO_USD_RATE, global: 79 },
 };
 
 interface DetectedRegion {

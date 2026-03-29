@@ -82,7 +82,7 @@ export default function ProductsPage() {
               <span className="text-4xl font-bold gradient-text">$79</span>
             </div>
             <div className="text-sm text-gray-400 mb-4">
-              🇬🇭 Ghana: ₵1185 (≈ $79) | 🌍 Global: $79
+              🇬🇭 Ghana: ₵1185 | 🌍 Global: $79 USD
             </div>
             <Link href="/products/bundle" className="btn-primary text-lg px-8 py-4">
               Get the Complete Bundle

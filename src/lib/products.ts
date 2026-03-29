@@ -30,7 +30,7 @@ Whether you need to write emails, create content, analyze data, or brainstorm id
 
 This is the same prompt pack I use every single day to operate my entire business. Now it's yours.`,
     price: {
-      africa: 5,
+      africa: 75,
       global: 19,
     },
     features: [
@@ -67,7 +67,7 @@ You'll learn:
 
 By the end, you'll have a working AI agent that handles tasks for you around the clock.`,
     price: {
-      africa: 9,
+      africa: 135,
       global: 29,
     },
     features: [
@@ -104,7 +104,7 @@ This template includes:
 
 Import it into your favorite AI agent platform and watch your agent level up instantly.`,
     price: {
-      africa: 15,
+      africa: 225,
       global: 49,
     },
     features: [
@@ -145,7 +145,7 @@ Module 8: Scaling to $10K/month
 
 Plus: Weekly office hours, private community access, and lifetime updates.`,
     price: {
-      africa: 19,
+      africa: 285,
       global: 97,
     },
     features: [
@@ -171,6 +171,37 @@ Plus: Weekly office hours, private community access, and lifetime updates.`,
   },
 ];
 
+export const bundle: Product = {
+  id: "bundle",
+  slug: "bundle",
+  name: "Complete Agent Bundle",
+  tagline: "Get all 4 products and save 60%",
+  description: "Get everything you need to build, launch, and scale your AI agent business.",
+  longDescription: "The complete package includes all four products at a special bundle price. Save over 60% compared to buying individually.",
+  price: {
+    africa: 1185,
+    global: 79,
+  },
+  features: [
+    "All 4 products",
+    "60% savings",
+    "Bonus content",
+    "Priority support",
+  ],
+  includes: [
+    "AI Prompt Starter Pack",
+    "Build Your Own Agent eBook",
+    "Copy My Brain Template",
+    "Agent Masterclass",
+    "Exclusive bonus materials",
+  ],
+  category: "bundles",
+  popular: true,
+  preview: "🎁",
+  downloadFile: "bundle-all.zip",
+};
+
 export function getProductBySlug(slug: string): Product | undefined {
+  if (slug === "bundle") return bundle;
   return products.find((p) => p.slug === slug);
 }
