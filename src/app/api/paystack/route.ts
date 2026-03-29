@@ -1,6 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
+import { products } from "@/lib/products";
 
 const GHANA_COUNTRY_CODE = "GH";
+
+const PRODUCT_PRICES = {
+  "1": { ghana: 5, global: 19 },
+  "2": { ghana: 9, global: 29 },
+  "3": { ghana: 15, global: 49 },
+  "4": { ghana: 19, global: 97 },
+};
 
 interface DetectedRegion {
   region: "ghana" | "global";
@@ -60,6 +68,17 @@ export async function POST(request: NextRequest) {
     const PAYSTACK_SECRET_KEY = process.env.PAYSTACK_SECRET_KEY;
     const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://sam-atlas.vercel.app";
 
+    const prices = PRODUCT_PRICES[productId as keyof typeof PRODUCT_PRICES];
+    if (!prices) {
+      return NextResponse.json(
+        { status: false, message: "Invalid product ID" },
+        { status: 400 }
+      );
+    }
+
+    const finalAmount = detected.pricingTier === "africa" ? prices.ghana : prices.global;
+    const finalCurrency = detected.currency;
+
     if (!PAYSTACK_SECRET_KEY) {
       console.log("Demo mode - returning mock payment URL");
       return NextResponse.json({
@@ -68,12 +87,12 @@ export async function POST(request: NextRequest) {
         data: {
           authorization_url: `${BASE_URL}/success?product=${productId}&email=${encodeURIComponent(email)}&demo=true`,
           reference: `demo_${Date.now()}`,
-          amount: amount * 100,
+          amount: finalAmount * 100,
+          currency: finalCurrency,
         },
       });
     }
 
-    const currency = detected.currency;
     const callbackUrl = `${BASE_URL}/success?product=${productId}&email=${encodeURIComponent(email)}&region=${detected.region}`;
 
     const response = await fetch("https://api.paystack.co/transaction/initialize", {
@@ -84,8 +103,8 @@ export async function POST(request: NextRequest) {
       },
       body: JSON.stringify({
         email,
-        amount: Math.round(amount * 100),
-        currency,
+        amount: Math.round(finalAmount * 100),
+        currency: finalCurrency,
         callback_url: callbackUrl,
         metadata: {
           product_id: productId,
