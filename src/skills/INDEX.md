@@ -14,6 +14,9 @@ This is the complete list of skills available to Sam Atlas. Each skill is a modu
 | learning | Advanced | Self-improvement |
 | social | Intermediate | Social media management |
 | browser | Intermediate | Web automation |
+| voice | Advanced | Text-to-speech, voice commands |
+| autonomous | Advanced | Self-directed task execution |
+| monitoring | Advanced | System health, metrics |
 
 ## Skill Loading
 
