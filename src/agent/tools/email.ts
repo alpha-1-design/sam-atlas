@@ -17,7 +17,7 @@ export class EmailTool implements Tool {
 
     switch (action) {
       case 'send':
-        return this.sendEmail(input);
+        return this.sendEmail(input as EmailOptions);
       case 'send_purchase_confirmation':
         return this.sendPurchaseConfirmation(input);
       case 'send_welcome':
