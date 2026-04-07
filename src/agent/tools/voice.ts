@@ -30,7 +30,7 @@ export class VoiceModule {
     };
     
     if (typeof window !== 'undefined' && ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window)) {
-      const SpeechRecognition = (window.SpeechRecognition || window.webkitSpeechRecognition);
+      const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
       this.recognition = new SpeechRecognition();
       this.recognition.continuous = false;
       this.recognition.interimResults = true;
