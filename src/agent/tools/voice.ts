@@ -14,7 +14,7 @@ export interface SpeechResult {
 
 export class VoiceModule {
   private synthesis: SpeechSynthesis;
-  private recognition: SpeechRecognition | null = null;
+  private recognition: any | null = null;
   private config: VoiceConfig;
   private speaking = false;
   private listening = false;
