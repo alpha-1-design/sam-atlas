@@ -98,7 +98,12 @@ export class SamAtlasAgent {
   }
 
   learn(type: 'success' | 'failure' | 'feedback', content: string, context: Record<string, any> = {}): void {
-    this.learning.logLearning({ type, content, context });
+    this.learning.logLearning({
+      type,
+      content,
+      context,
+      confidence: 0.8
+    });
   }
 
   getStatus(): any {
