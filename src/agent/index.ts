@@ -55,6 +55,8 @@ export class SamAtlasAgent {
     this.brain.perceive({
       ...perception,
       importance: perception.importance || 0.5,
+      timestamp: new Date(),
+      processed: false,
     });
   }
 
