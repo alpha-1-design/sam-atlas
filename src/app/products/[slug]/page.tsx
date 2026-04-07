@@ -95,35 +95,18 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
 
       const data = await response.json();
 
-      if (data.status && window.PaystackPop) {
-        const handler = window.PaystackPop.setup({
-          key: "pk_live_aa417b30a275348fef6da7cf998fd3719edb4cfb",
-          email: customerEmail,
-          amount: data.data.amount * 100,
-          currency: region === "africa" ? "GHS" : "USD",
-          callback: async (response) => {
-            const verifyRes = await fetch("/api/verify-payment", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ reference: response.reference, email: customerEmail }),
-            });
-            const verifyData = await verifyRes.json();
-            if (verifyData.status) {
-              window.location.href = `/success?product=${product?.id}&email=${customerEmail}`;
-            }
-          },
-          onClose: () => {
-            setIsProcessing(false);
-          },
-        });
-        handler.openIframe();
+      if (data.status && data.data.authorization_url) {
+        window.location.href = data.data.authorization_url;
+        return;
+      } else {
+        throw new Error(data.message || "Payment initialization failed");
       }
     } catch (error) {
       console.error("Payment error:", error);
       alert("Payment failed. Please try again.");
+    } finally {
+      setIsProcessing(false);
     }
-
-    setIsProcessing(false);
   };
 
   if (isLoading) {

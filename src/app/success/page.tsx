@@ -17,7 +17,28 @@ function SuccessContent() {
       const found = products.find((p) => p.id === productId);
       if (found) setProduct(found);
     }
-  }, [productId]);
+
+    const verifyPayment = async () => {
+      const reference = searchParams.get("reference");
+      if (reference && email) {
+        try {
+          await fetch("/api/verify-payment", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              reference,
+              email,
+              productId
+            }),
+          });
+        } catch (e) {
+          console.error("Automatic verification failed:", e);
+        }
+      }
+    };
+
+    verifyPayment();
+  }, [productId, email, searchParams]);
 
   return (
     <div className="max-w-2xl mx-auto text-center">
