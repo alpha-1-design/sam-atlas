@@ -96,6 +96,7 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
       const data = await response.json();
 
       if (data.status && data.data.authorization_url) {
+        setIsProcessing(false);
         window.location.href = data.data.authorization_url;
         return;
       } else {

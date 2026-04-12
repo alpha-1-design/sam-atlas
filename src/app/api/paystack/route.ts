@@ -23,7 +23,8 @@ interface DetectedRegion {
 async function detectRegionFromIP(ip: string): Promise<DetectedRegion> {
   try {
     const response = await fetch(`https://ipapi.co/${ip}/country_code/`);
-    const countryCode = await response.text().trim();
+    const text = await response.text();
+    const countryCode = text.trim();
     
     if (countryCode === GHANA_COUNTRY_CODE) {
       return {
