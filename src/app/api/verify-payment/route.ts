@@ -56,7 +56,8 @@ export async function POST(request: NextRequest) {
       const product = productId ? products.find((p) => p.id === productId) : products[0];
       
       if (product) {
-        const expectedAmount = pricingTier === "africa" ? product.price.africa : product.price.global;
+        const priceByTier = product.priceByTier || { tier1: product.price, tier2: product.price, tier3: product.price };
+        const expectedAmount = priceByTier[pricingTier as keyof typeof priceByTier] || priceByTier.tier3;
         
         if (paidAmount < expectedAmount * 0.9) {
           console.error(`Fraud alert: Expected ~$${expectedAmount} but got $${paidAmount} (${currency})`);
