@@ -130,9 +130,9 @@ export default function Home() {
                 </p>
                 <div className="flex items-center justify-between">
                   <div>
-                    <span className="text-gray-500 text-sm line-through">${product.price.global}</span>
-                    <span className="text-lg font-bold text-white ml-2">${product.price.africa}</span>
-                    <span className="text-xs text-gray-500 ml-1">(Africa)</span>
+                    <span className="text-lg font-bold text-white">${product.price.tier3}</span>
+                    <span className="text-xs text-gray-500 ml-1">(Global)</span>
+                    <span className="text-xs text-green-400 ml-2">Regional pricing available</span>
                   </div>
                   <span className="text-primary group-hover:translate-x-1 transition-transform">
                     View
