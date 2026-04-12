@@ -1,23 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
-import { products } from "@/lib/products";
+import { products, bundle, getPricingTier, getPriceByTier, PricingTier } from "@/lib/products";
 
-const GHANA_COUNTRY_CODE = "GH";
-
-const GHS_TO_USD_RATE = 15;
-
-const PRODUCT_PRICES: Record<string, { ghana: number; global: number }> = {
-  "1": { ghana: 5 * GHS_TO_USD_RATE, global: 19 },
-  "2": { ghana: 9 * GHS_TO_USD_RATE, global: 29 },
-  "3": { ghana: 15 * GHS_TO_USD_RATE, global: 49 },
-  "4": { ghana: 19 * GHS_TO_USD_RATE, global: 97 },
-  "bundle": { ghana: 79 * GHS_TO_USD_RATE, global: 79 },
-};
+const TIER1_CURRENCY = "USD";
+const TIER2_CURRENCY = "USD";
+const TIER3_CURRENCY = "USD";
 
 interface DetectedRegion {
-  region: "ghana" | "global";
+  tier: PricingTier;
   countryCode: string;
-  currency: "GHS" | "USD";
-  pricingTier: "africa" | "global";
+  currency: string;
 }
 
 async function detectRegionFromIP(ip: string): Promise<DetectedRegion> {
@@ -26,23 +17,21 @@ async function detectRegionFromIP(ip: string): Promise<DetectedRegion> {
     const text = await response.text();
     const countryCode = text.trim();
     
-    if (countryCode === GHANA_COUNTRY_CODE) {
-      return {
-        region: "ghana",
-        countryCode,
-        currency: "GHS",
-        pricingTier: "africa"
-      };
-    }
+    const tier = getPricingTier(countryCode);
+    
+    return {
+      tier,
+      countryCode,
+      currency: TIER1_CURRENCY,
+    };
   } catch (error) {
     console.error("Failed to detect region:", error);
   }
   
   return {
-    region: "global",
-    countryCode: "XX",
-    currency: "USD",
-    pricingTier: "global"
+    tier: "tier3",
+    countryCode: "US",
+    currency: TIER3_CURRENCY,
   };
 }
 
@@ -57,7 +46,7 @@ function getClientIP(request: NextRequest): string {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { email, productId, amount, clientRegion } = body;
+    const { email, productId, amount } = body;
 
     if (!email || !productId || !amount) {
       return NextResponse.json(
@@ -72,15 +61,19 @@ export async function POST(request: NextRequest) {
     const PAYSTACK_SECRET_KEY = process.env.PAYSTACK_SECRET_KEY;
     const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://sam-atlas.vercel.app";
 
-    const prices = PRODUCT_PRICES[productId as keyof typeof PRODUCT_PRICES];
-    if (!prices) {
+    let product = products.find(p => p.id === productId);
+    if (!product && productId === "bundle") {
+      product = bundle;
+    }
+
+    if (!product) {
       return NextResponse.json(
         { status: false, message: "Invalid product ID" },
         { status: 400 }
       );
     }
 
-    const finalAmount = detected.pricingTier === "africa" ? prices.ghana : prices.global;
+    const finalAmount = getPriceByTier(product, detected.tier);
     const finalCurrency = detected.currency;
 
     if (!PAYSTACK_SECRET_KEY) {
@@ -93,11 +86,12 @@ export async function POST(request: NextRequest) {
           reference: `demo_${Date.now()}`,
           amount: finalAmount * 100,
           currency: finalCurrency,
+          tier: detected.tier,
         },
       });
     }
 
-    const callbackUrl = `${BASE_URL}/success?product=${productId}&email=${encodeURIComponent(email)}&region=${detected.region}`;
+    const callbackUrl = `${BASE_URL}/success?product=${productId}&email=${encodeURIComponent(email)}&tier=${detected.tier}`;
 
     const response = await fetch("https://api.paystack.co/transaction/initialize", {
       method: "POST",
@@ -112,8 +106,7 @@ export async function POST(request: NextRequest) {
         callback_url: callbackUrl,
         metadata: {
           product_id: productId,
-          detected_region: detected.region,
-          pricing_tier: detected.pricingTier,
+          pricing_tier: detected.tier,
           country_code: detected.countryCode,
           client_ip: clientIP,
           custom_fields: [
@@ -123,14 +116,14 @@ export async function POST(request: NextRequest) {
               value: productId,
             },
             {
-              display_name: "Region",
-              variable_name: "region",
-              value: detected.region,
+              display_name: "Pricing Tier",
+              variable_name: "pricing_tier",
+              value: detected.tier,
             },
             {
-              display_name: "Currency",
-              variable_name: "currency",
-              value: finalCurrency,
+              display_name: "Country",
+              variable_name: "country_code",
+              value: detected.countryCode,
             },
           ],
         },

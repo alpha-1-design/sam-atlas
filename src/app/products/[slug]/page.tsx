@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getProductBySlug, products } from "@/lib/products";
+import { getProductBySlug, products, getPricingTier, getPriceByTier, getTierLabel, PricingTier } from "@/lib/products";
 
 declare global {
   interface Window {
@@ -31,7 +31,8 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
   const [isLoading, setIsLoading] = useState(true);
   const [customerEmail, setCustomerEmail] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
-  const [region, setRegion] = useState<"africa" | "global">("global");
+  const [tier, setTier] = useState<PricingTier>("tier3");
+  const [countryCode, setCountryCode] = useState<string>("");
   const [resolvedParams, setResolvedParams] = useState<{ slug: string } | null>(null);
 
   useEffect(() => {
@@ -53,12 +54,12 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
       try {
         const res = await fetch("https://ipapi.co/json/");
         const data = await res.json();
-        const africanCountries = ["GH", "NG", "KE", "ZA", "TZ", "UG", "RW", "ET", "ZM", "ZW"];
-        if (africanCountries.includes(data.country_code)) {
-          setRegion("africa");
+        if (data.country_code) {
+          setCountryCode(data.country_code);
+          setTier(getPricingTier(data.country_code));
         }
       } catch {
-        setRegion("global");
+        setTier("tier3");
       }
     };
     detectRegion();
@@ -73,6 +74,9 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
       document.body.removeChild(script);
     };
   }, []);
+
+  const currentPrice = product ? getPriceByTier(product, tier) : 0;
+  const tierInfo = getTierLabel(tier);
 
   const handlePurchase = async () => {
     if (!customerEmail) {
@@ -89,7 +93,7 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
         body: JSON.stringify({
           email: customerEmail,
           productId: product?.id,
-          amount: region === "africa" ? product?.price.africa : product?.price.global,
+          amount: currentPrice,
         }),
       });
 
@@ -185,17 +189,19 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
               {/* Region Detection */}
               <div className="mb-6">
                 <div className={`p-3 rounded-lg border ${
-                  region === "africa" 
-                    ? "border-secondary/50 bg-secondary/10" 
+                  tier === "tier1" 
+                    ? "border-green-500/50 bg-green-500/10" 
+                    : tier === "tier2"
+                    ? "border-yellow-500/50 bg-yellow-500/10"
                     : "border-primary/50 bg-primary/10"
                 }`}>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <span className={`w-2 h-2 rounded-full ${
-                        region === "africa" ? "bg-secondary" : "bg-primary"
+                        tier === "tier1" ? "bg-green-500" : tier === "tier2" ? "bg-yellow-500" : "bg-primary"
                       }`} />
                       <span className="text-sm font-medium">
-                        {region === "africa" ? "🇬🇭 Ghana (GHS)" : "🌍 Global (USD)"}
+                        {tierInfo.flag} {countryCode || 'Detecting...'} ({tierInfo.label})
                       </span>
                     </div>
                     <span className="text-xs text-gray-400">
@@ -205,23 +211,34 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
                 </div>
               </div>
 
+              {/* Pricing Tiers Info */}
+              <div className="mb-6 bg-card rounded-lg p-4">
+                <p className="text-xs text-gray-400 mb-3">Available pricing tiers:</p>
+                <div className="space-y-2">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-green-400">🌍 Accessible (Tier 1)</span>
+                    <span className="font-mono">${product.price.tier1}</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-yellow-400">🌎 Regional (Tier 2)</span>
+                    <span className="font-mono">${product.price.tier2}</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-primary">🌍 Global (Tier 3)</span>
+                    <span className="font-mono">${product.price.tier3}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Your Price */}
               <div className="mb-6">
-                {region === "africa" ? (
-                  <div>
-                    <span className="text-sm text-gray-400">Ghana Pricing</span>
-                    <div>
-                      <span className="text-4xl font-bold">₵{product.price.africa}</span>
-                    </div>
-                    <span className="text-xs text-secondary">Special pricing for Ghana</span>
-                  </div>
-                ) : (
-                  <div>
-                    <span className="text-sm text-gray-400">International Pricing</span>
-                    <div>
-                      <span className="text-4xl font-bold">${product.price.global}</span>
-                      <span className="text-gray-400 ml-2">USD</span>
-                    </div>
-                  </div>
+                <span className="text-sm text-gray-400">Your Price</span>
+                <div>
+                  <span className="text-5xl font-bold">${currentPrice}</span>
+                  <span className="text-gray-400 ml-2">USD</span>
+                </div>
+                {tier !== "tier3" && (
+                  <span className="text-xs text-green-400">You're getting {Math.round((1 - currentPrice / product.price.tier3) * 100)}% off!</span>
                 )}
               </div>
 
@@ -242,7 +259,7 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
                   disabled={isProcessing}
                   className="w-full btn-primary py-4 text-lg disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {isProcessing ? "Processing..." : `Pay ${region === "africa" ? `₵${product.price.africa * 15}` : `$${product.price.global}`} with Paystack`}
+                  {isProcessing ? "Processing..." : `Pay $${currentPrice} with Paystack`}
                 </button>
 
                 <div className="flex items-center justify-center gap-4 text-sm text-gray-500">

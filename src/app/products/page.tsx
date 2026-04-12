@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { products } from "@/lib/products";
+import { products, bundle } from "@/lib/products";
 
 export default function ProductsPage() {
   return (
@@ -12,6 +12,9 @@ export default function ProductsPage() {
           <p className="text-gray-400 max-w-2xl mx-auto">
             Everything you need to build, launch, and scale your own AI agent business. 
             Each product is something I actually use myself.
+          </p>
+          <p className="text-sm text-secondary mt-4">
+            💡 Prices are adjusted based on your location. We believe everyone deserves access to these tools.
           </p>
         </div>
 
@@ -49,14 +52,18 @@ export default function ProductsPage() {
               </div>
 
               <div className="border-t border-card-border pt-6 mt-6">
-                <div className="flex items-center justify-between mb-4">
-                  <div>
-                    <span className="text-sm text-gray-500">🇬🇭 Ghana: </span>
-                    <span className="text-2xl font-bold">₵{product.price.africa * 15}</span>
+                <div className="grid grid-cols-3 gap-2 mb-4 text-center">
+                  <div className="bg-green-500/10 rounded-lg p-2">
+                    <span className="text-xs text-green-400 block">🌍 Accessible</span>
+                    <span className="text-lg font-bold">${product.price.tier1}</span>
                   </div>
-                  <div>
-                    <span className="text-sm text-gray-500">🌍 Global: </span>
-                    <span className="text-2xl font-bold">${product.price.global}</span>
+                  <div className="bg-yellow-500/10 rounded-lg p-2">
+                    <span className="text-xs text-yellow-400 block">🌎 Regional</span>
+                    <span className="text-lg font-bold">${product.price.tier2}</span>
+                  </div>
+                  <div className="bg-primary/10 rounded-lg p-2">
+                    <span className="text-xs text-primary block">🌍 Global</span>
+                    <span className="text-lg font-bold">${product.price.tier3}</span>
                   </div>
                 </div>
 
@@ -79,10 +86,12 @@ export default function ProductsPage() {
             </p>
             <div className="flex items-center justify-center gap-4 mb-6">
               <span className="text-3xl font-bold line-through text-gray-500">$194</span>
-              <span className="text-4xl font-bold gradient-text">$79</span>
+              <span className="text-4xl font-bold gradient-text">${bundle.price.tier3}</span>
             </div>
-            <div className="text-sm text-gray-400 mb-4">
-              🇬🇭 Ghana: ₵1185 | 🌍 Global: $79 USD
+            <div className="flex items-center justify-center gap-4 text-sm text-gray-400 mb-4">
+              <span>🌍 ${bundle.price.tier1}</span>
+              <span>🌎 ${bundle.price.tier2}</span>
+              <span>🌍 ${bundle.price.tier3}</span>
             </div>
             <Link href="/products/bundle" className="btn-primary text-lg px-8 py-4">
               Get the Complete Bundle

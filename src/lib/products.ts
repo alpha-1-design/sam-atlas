@@ -1,3 +1,5 @@
+export type PricingTier = "tier1" | "tier2" | "tier3";
+
 export interface Product {
   id: string;
   slug: string;
@@ -6,8 +8,9 @@ export interface Product {
   description: string;
   longDescription: string;
   price: {
-    africa: number;
-    global: number;
+    tier1: number;
+    tier2: number;
+    tier3: number;
   };
   features: string[];
   includes: string[];
@@ -15,6 +18,52 @@ export interface Product {
   popular?: boolean;
   preview: string;
   downloadFile: string;
+}
+
+export const COUNTRY_TIERS: Record<string, PricingTier> = {
+  // Tier 1 - Low Income (Sub-Saharan Africa + Conflict zones)
+  GH: "tier1", NG: "tier1", KE: "tier1", TZ: "tier1", UG: "tier1",
+  ET: "tier1", MZ: "tier1", GH: "tier1", MW: "tier1", ZM: "tier1",
+  ZW: "tier1", RW: "tier1", SS: "tier1", SD: "tier1", ML: "tier1",
+  BF: "tier1", NE: "tier1", TG: "tier1", BJ: "tier1", GW: "tier1",
+  GM: "tier1", SL: "tier1", LR: "tier1", CI: "tier1", CM: "tier1",
+  CD: "tier1", CG: "tier1", GA: "tier1", GQ: "tier1", AO: "tier1",
+  NA: "tier1", BW: "tier1", LS: "tier1", SZ: "tier1", DJ: "tier1",
+  ER: "tier1", SO: "tier1", CF: "tier1", TD: "tier1", KN: "tier1",
+  HT: "tier1", AF: "tier1", YE: "tier1", IQ: "tier1", SY: "tier1",
+
+  // Tier 2 - Lower-Middle Income
+  IN: "tier2", EG: "tier2", ID: "tier2", PH: "tier2", PK: "tier2",
+  NG: "tier2", UA: "tier2", MA: "tier2", CO: "tier2", TH: "tier2",
+  VN: "tier2", BD: "tier2", NM: "tier2", LK: "tier2", NP: "tier2",
+  GH: "tier2", TN: "tier2", JO: "tier2", LB: "tier2", GH: "tier2",
+  KH: "tier2", LA: "tier2", MM: "tier2", PY: "tier2", BO: "tier2",
+  GT: "tier2", HN: "tier2", SV: "tier2", NI: "tier2", CR: "tier2",
+  DO: "tier2", PA: "tier2", JM: "tier2", CU: "tier2", SZ: "tier2",
+  DZ: "tier2", LY: "tier2", KP: "tier2", TJ: "tier2", KG: "tier2",
+  UZ: "tier2", AZ: "tier2", GE: "tier2", AM: "tier2", MD: "tier2",
+
+  // Tier 3 - Everything else (Global)
+};
+
+export function getPricingTier(countryCode: string): PricingTier {
+  return COUNTRY_TIERS[countryCode] || "tier3";
+}
+
+export function getPriceByTier(product: Product, tier: PricingTier): number {
+  switch (tier) {
+    case "tier1": return product.price.tier1;
+    case "tier2": return product.price.tier2;
+    case "tier3": return product.price.tier3;
+  }
+}
+
+export function getTierLabel(tier: PricingTier): { label: string; flag: string } {
+  switch (tier) {
+    case "tier1": return { label: "Accessible Price", flag: "🌍" };
+    case "tier2": return { label: "Regional Price", flag: "🌎" };
+    case "tier3": return { label: "Global Price", flag: "🌍" };
+  }
 }
 
 export const products: Product[] = [
@@ -30,8 +79,9 @@ Whether you need to write emails, create content, analyze data, or brainstorm id
 
 This is the same prompt pack I use every single day to operate my entire business. Now it's yours.`,
     price: {
-      africa: 75,
-      global: 19,
+      tier1: 5,
+      tier2: 10,
+      tier3: 19,
     },
     features: [
       "50+ premium prompts",
@@ -67,8 +117,9 @@ You'll learn:
 
 By the end, you'll have a working AI agent that handles tasks for you around the clock.`,
     price: {
-      africa: 135,
-      global: 29,
+      tier1: 8,
+      tier2: 15,
+      tier3: 29,
     },
     features: [
       "150+ page comprehensive guide",
@@ -104,8 +155,9 @@ This template includes:
 
 Import it into your favorite AI agent platform and watch your agent level up instantly.`,
     price: {
-      africa: 225,
-      global: 49,
+      tier1: 15,
+      tier2: 30,
+      tier3: 49,
     },
     features: [
       "Complete brain architecture",
@@ -145,8 +197,9 @@ Module 8: Scaling to $10K/month
 
 Plus: Weekly office hours, private community access, and lifetime updates.`,
     price: {
-      africa: 285,
-      global: 97,
+      tier1: 25,
+      tier2: 50,
+      tier3: 97,
     },
     features: [
       "8 comprehensive modules",
@@ -179,8 +232,9 @@ export const bundle: Product = {
   description: "Get everything you need to build, launch, and scale your AI agent business.",
   longDescription: "The complete package includes all four products at a special bundle price. Save over 60% compared to buying individually.",
   price: {
-    africa: 1185,
-    global: 79,
+    tier1: 35,
+    tier2: 60,
+    tier3: 79,
   },
   features: [
     "All 4 products",
