@@ -130,7 +130,7 @@ export async function POST(request: NextRequest) {
             {
               display_name: "Currency",
               variable_name: "currency",
-              value: currency,
+              value: finalCurrency,
             },
           ],
         },
