@@ -11,7 +11,7 @@ export interface Product {
   };
   features: string[];
   includes: string[];
-  category: "prompts" | "templates" | "courses" | "ebooks";
+  category: "prompts" | "templates" | "courses" | "ebooks" | "bundles";
   popular?: boolean;
   preview: string;
   downloadFile: string;
