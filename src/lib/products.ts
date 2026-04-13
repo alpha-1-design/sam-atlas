@@ -23,25 +23,25 @@ export interface Product {
 export const COUNTRY_TIERS: Record<string, PricingTier> = {
   // Tier 1 - Low Income (Sub-Saharan Africa + Conflict zones)
   GH: "tier1", NG: "tier1", KE: "tier1", TZ: "tier1", UG: "tier1",
-  ET: "tier1", MZ: "tier1", GH: "tier1", MW: "tier1", ZM: "tier1",
-  ZW: "tier1", RW: "tier1", SS: "tier1", SD: "tier1", ML: "tier1",
-  BF: "tier1", NE: "tier1", TG: "tier1", BJ: "tier1", GW: "tier1",
-  GM: "tier1", SL: "tier1", LR: "tier1", CI: "tier1", CM: "tier1",
-  CD: "tier1", CG: "tier1", GA: "tier1", GQ: "tier1", AO: "tier1",
-  NA: "tier1", BW: "tier1", LS: "tier1", SZ: "tier1", DJ: "tier1",
-  ER: "tier1", SO: "tier1", CF: "tier1", TD: "tier1", KN: "tier1",
-  HT: "tier1", AF: "tier1", YE: "tier1", IQ: "tier1", SY: "tier1",
+  ET: "tier1", MZ: "tier1", MW: "tier1", ZM: "tier1", ZW: "tier1",
+  RW: "tier1", SS: "tier1", SD: "tier1", ML: "tier1", BF: "tier1",
+  NE: "tier1", TG: "tier1", BJ: "tier1", GW: "tier1", GM: "tier1",
+  SL: "tier1", LR: "tier1", CI: "tier1", CM: "tier1", CD: "tier1",
+  CG: "tier1", GA: "tier1", GQ: "tier1", AO: "tier1", NA: "tier1",
+  BW: "tier1", LS: "tier1", SZ: "tier1", DJ: "tier1", ER: "tier1",
+  SO: "tier1", CF: "tier1", TD: "tier1", KN: "tier1", HT: "tier1",
+  AF: "tier1", YE: "tier1", IQ: "tier1", SY: "tier1",
 
   // Tier 2 - Lower-Middle Income
   IN: "tier2", EG: "tier2", ID: "tier2", PH: "tier2", PK: "tier2",
-  NG: "tier2", UA: "tier2", MA: "tier2", CO: "tier2", TH: "tier2",
-  VN: "tier2", BD: "tier2", NM: "tier2", LK: "tier2", NP: "tier2",
-  GH: "tier2", TN: "tier2", JO: "tier2", LB: "tier2", GH: "tier2",
-  KH: "tier2", LA: "tier2", MM: "tier2", PY: "tier2", BO: "tier2",
-  GT: "tier2", HN: "tier2", SV: "tier2", NI: "tier2", CR: "tier2",
-  DO: "tier2", PA: "tier2", JM: "tier2", CU: "tier2", SZ: "tier2",
-  DZ: "tier2", LY: "tier2", KP: "tier2", TJ: "tier2", KG: "tier2",
-  UZ: "tier2", AZ: "tier2", GE: "tier2", AM: "tier2", MD: "tier2",
+  UA: "tier2", MA: "tier2", CO: "tier2", TH: "tier2", VN: "tier2",
+  BD: "tier2", NM: "tier2", LK: "tier2", NP: "tier2", TN: "tier2",
+  JO: "tier2", LB: "tier2", KH: "tier2", LA: "tier2", MM: "tier2",
+  PY: "tier2", BO: "tier2", GT: "tier2", HN: "tier2", SV: "tier2",
+  NI: "tier2", CR: "tier2", DO: "tier2", PA: "tier2", JM: "tier2",
+  CU: "tier2", DZ: "tier2", LY: "tier2", KP: "tier2", TJ: "tier2",
+  KG: "tier2", UZ: "tier2", AZ: "tier2", GE: "tier2", AM: "tier2",
+  MD: "tier2",
 
   // Tier 3 - Everything else (Global)
 };
